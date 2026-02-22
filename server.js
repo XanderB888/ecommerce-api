@@ -35,7 +35,11 @@ API endpoints planning
 require('dotenv').config();
 const express = require('express');
 const db = require('./db/index');
+const authRouter = require('./routes/auth');
+
 const app = express();
 
 app.use(express.json());
+app.use('/auth', authRouter);
+
 app.listen(3000, () => console.log('Server running on port 3000'));
