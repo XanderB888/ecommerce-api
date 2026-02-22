@@ -38,6 +38,7 @@ const session = require('express-session');
 const passport = require('./config/passport');
 const db = require('./db/index');
 const authRouter = require('./routes/auth');
+const productsRouter = require('./routes/products');
 
 const app = express();
 
@@ -52,6 +53,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/products', productsRouter);
 app.use('/auth', authRouter);
 
 app.listen(3000, () => console.log('Server running on port 3000'));
