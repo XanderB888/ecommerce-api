@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const db = require('../db/index');
+const passport = require('passport');
 
 // POST /auth/register
 router.post('/register', async (req, res) => {
@@ -20,6 +21,19 @@ router.post('/register', async (req, res) => {
     console.log(err);
     res.status(500).json({ error: err.message });
   }
+});
+
+// POST /auth/login
+router.post('/login', passport.authenticate('local'), (req, res) => {
+  res.json({ message: 'Logged in successfully', user: { id, username, email } });
+});
+
+// GET /auth/logout
+router.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Logged out successfully' });
+  });
 });
 
 module.exports = router;
