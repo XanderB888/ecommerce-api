@@ -41,6 +41,7 @@ const authRouter = require('./routes/auth');
 const productsRouter = require('./routes/products');
 const usersRouter = require('./routes/users');
 const cartRouter = require('./routes/cart');
+const checkoutRouter = require('./routes/checkout');
 
 const app = express();
 
@@ -59,5 +60,6 @@ app.use('/products', productsRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
+app.use('/checkout', checkoutRouter);
 
 app.listen(3000, () => console.log('Server running on port 3000'));
