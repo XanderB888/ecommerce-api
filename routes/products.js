@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/index');
 
+/**
+ * @swagger
+ * /products:
+ *   get:
+ *     summary: Get all products
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: List of all products
+ */
 // GET /products - get all products
 router.get('/', async (req, res) => {
   try {
@@ -12,6 +22,24 @@ router.get('/', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /products/{id}:
+ *   get:
+ *     summary: Get a single product
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Product found
+ *       404:
+ *         description: Product not found
+ */
 // GET /products/:id - get one product
 router.get('/:id', async (req, res) => {
   try {
@@ -28,6 +56,31 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /products:
+ *   post:
+ *     summary: Create a new product
+ *     tags: [Products]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: integer
+ *               quantity_in_stock:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Product created
+ */
 // POST /products - create a product
 router.post('/', async (req, res) => {
   const { name, description, price, quantity_in_stock } = req.body;
@@ -42,6 +95,24 @@ router.post('/', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /products/{id}:
+ *   put:
+ *     summary: Update a product
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Product updated
+ *       404:
+ *         description: Product not found
+ */
 // PUT /products/:id - update a product
 router.put('/:id', async (req, res) => {
   const { name, description, price, quantity_in_stock } = req.body;
@@ -59,6 +130,24 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /products/{id}:
+ *   delete:
+ *     summary: Delete a product
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Product deleted
+ *       404:
+ *         description: Product not found
+ */
 // DELETE /products/:id - delete a product
 router.delete('/:id', async (req, res) => {
   try {

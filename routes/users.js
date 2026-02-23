@@ -10,6 +10,26 @@ const isAuthenticated = (req, res, next) => {
   res.status(401).json({ error: 'You must be logged in' });
 };
 
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: Get a user profile
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User found
+ *       401:
+ *         description: Not logged in
+ *       404:
+ *         description: User not found
+ */
 // GET /users/:id - get a user's profile
 router.get('/:id', isAuthenticated, async (req, res) => {
   try {
@@ -26,6 +46,24 @@ router.get('/:id', isAuthenticated, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /users/{id}:
+ *   put:
+ *     summary: Update a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User updated
+ *       401:
+ *         description: Not logged in
+ */
 // PUT /users/:id - update a user
 router.put('/:id', isAuthenticated, async (req, res) => {
   const { username, email } = req.body;
@@ -43,6 +81,24 @@ router.put('/:id', isAuthenticated, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     summary: Delete a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User deleted
+ *       401:
+ *         description: Not logged in
+ */
 // DELETE /users/:id - delete a user
 router.delete('/:id', isAuthenticated, async (req, res) => {
   try {

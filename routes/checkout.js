@@ -7,6 +7,20 @@ const isAuthenticated = (req, res, next) => {
   res.status(401).json({ error: 'You must be logged in' });
 };
 
+/**
+ * @swagger
+ * /checkout:
+ *   post:
+ *     summary: Checkout and create order from cart
+ *     tags: [Checkout]
+ *     responses:
+ *       201:
+ *         description: Order placed successfully
+ *       400:
+ *         description: Cart is empty
+ *       401:
+ *         description: Not logged in
+ */
 // POST /checkout
 router.post('/', isAuthenticated, async (req, res) => {
   try {

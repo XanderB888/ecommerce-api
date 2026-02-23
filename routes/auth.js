@@ -4,6 +4,31 @@ const bcrypt = require('bcrypt');
 const db = require('../db/index');
 const passport = require('passport');
 
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *       500:
+ *         description: Server error
+ */
 // POST /auth/register
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
@@ -23,6 +48,29 @@ router.post('/register', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Login with username and password
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Logged in successfully
+ *       401:
+ *         description: Incorrect credentials
+ */
 // POST /auth/login
 router.post('/login', passport.authenticate('local'), (req, res) => {
   res.json({ 
@@ -35,6 +83,16 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ * /auth/logout:
+ *   get:
+ *     summary: Logout current user
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Logged out successfully
+ */
 // GET /auth/logout
 router.get('/logout', (req, res) => {
   req.logout((err) => {

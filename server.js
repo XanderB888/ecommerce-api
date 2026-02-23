@@ -35,6 +35,8 @@ API endpoints planning
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 const passport = require('./config/passport');
 const db = require('./db/index');
 const authRouter = require('./routes/auth');
@@ -63,5 +65,6 @@ app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
 app.use('/checkout', checkoutRouter);
 app.use('/orders', ordersRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.listen(3000, () => console.log('Server running on port 3000'));

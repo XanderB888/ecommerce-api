@@ -7,6 +7,18 @@ const isAuthenticated = (req, res, next) => {
   res.status(401).json({ error: 'You must be logged in' });
 };
 
+/**
+ * @swagger
+ * /orders:
+ *   get:
+ *     summary: Get all orders for logged in user
+ *     tags: [Orders]
+ *     responses:
+ *       200:
+ *         description: List of orders
+ *       401:
+ *         description: Not logged in
+ */
 // GET /orders - get all orders for logged in user
 router.get('/', isAuthenticated, async (req, res) => {
   try {
@@ -20,6 +32,26 @@ router.get('/', isAuthenticated, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /orders/{id}:
+ *   get:
+ *     summary: Get a single order with items
+ *     tags: [Orders]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Order found
+ *       401:
+ *         description: Not logged in
+ *       404:
+ *         description: Order not found
+ */
 // GET /orders/:id - get a single order with all items
 router.get('/:id', isAuthenticated, async (req, res) => {
   try {

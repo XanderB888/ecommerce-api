@@ -7,6 +7,18 @@ const isAuthenticated = (req, res, next) => {
   res.status(401).json({ error: 'You must be logged in' });
 };
 
+/**
+ * @swagger
+ * /cart:
+ *   get:
+ *     summary: Get current user's cart
+ *     tags: [Cart]
+ *     responses:
+ *       200:
+ *         description: Cart retrieved
+ *       401:
+ *         description: Not logged in
+ */
 // GET /cart - get current user's cart
 router.get('/', isAuthenticated, async (req, res) => {
   try {
@@ -30,6 +42,29 @@ router.get('/', isAuthenticated, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /cart:
+ *   post:
+ *     summary: Add item to cart
+ *     tags: [Cart]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               product_id:
+ *                 type: integer
+ *               quantity:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Item added to cart
+ *       401:
+ *         description: Not logged in
+ */
 // POST /cart - add item to cart
 router.post('/', isAuthenticated, async (req, res) => {
   const { product_id, quantity } = req.body;
@@ -58,6 +93,24 @@ router.post('/', isAuthenticated, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /cart/{itemId}:
+ *   put:
+ *     summary: Update cart item quantity
+ *     tags: [Cart]
+ *     parameters:
+ *       - in: path
+ *         name: itemId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Cart item updated
+ *       401:
+ *         description: Not logged in
+ */
 // PUT /cart/:itemId - update item quantity
 router.put('/:itemId', isAuthenticated, async (req, res) => {
   const { quantity } = req.body;
@@ -75,6 +128,24 @@ router.put('/:itemId', isAuthenticated, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /cart/{itemId}:
+ *   delete:
+ *     summary: Remove item from cart
+ *     tags: [Cart]
+ *     parameters:
+ *       - in: path
+ *         name: itemId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Item removed
+ *       401:
+ *         description: Not logged in
+ */
 // DELETE /cart/:itemId - remove item from cart
 router.delete('/:itemId', isAuthenticated, async (req, res) => {
   try {
