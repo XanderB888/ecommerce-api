@@ -30,10 +30,10 @@ router.get('/', isAuthenticated, async (req, res) => {
       return res.json({ message: 'Cart is empty' });
     }
     const items = await db.query(
-      `SELECT ci.id, ci.quantity, p.name, p.price, p.description
-       FROM cart_items ci
-       JOIN products p ON ci.product_id = p.id
-       WHERE ci.cart_id = $1`,
+      `SELECT ci.id, ci.product_id, ci.quantity, p.name, p.price, p.description
+        FROM cart_items ci
+        JOIN products p ON ci.product_id = p.id
+        WHERE ci.cart_id = $1`,
       [cart.rows[0].id]
     );
     res.json({ cart_id: cart.rows[0].id, items: items.rows });
