@@ -26,7 +26,22 @@ router.get('/', isAuthenticated, async (req, res) => {
       'SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC',
       [req.user.id]
     );
-    res.json(result.rows);
+
+    // For each order, fetch its items
+    const ordersWithItems = await Promise.all(
+      result.rows.map(async (order) => {
+        const items = await db.query(
+          `SELECT oi.quantity, oi.unit_price, p.name
+           FROM order_items oi
+           JOIN products p ON oi.product_id = p.id
+           WHERE oi.order_id = $1`,
+          [order.id]
+        );
+        return { ...order, items: items.rows };
+      })
+    );
+
+    res.json(ordersWithItems);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
