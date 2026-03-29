@@ -67,4 +67,14 @@ app.use('/checkout', checkoutRouter);
 app.use('/orders', ordersRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+const path = require('path')
+
+// Serve React frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/dist')))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'))
+  })
+}
+
 app.listen(3000, () => console.log('Server running on port 3000'));
